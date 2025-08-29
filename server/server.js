@@ -30,9 +30,12 @@ const Produk = mongoose.model("Produk", produkSchema, "PRODUK");
 // API untuk semua produk
 app.get("/api/produk", async (req, res) => {
   try {
+    console.log("Mencoba mengambil data dari MongoDB..."); // Log 1
     const produk = await Produk.find();
+    console.log("Data berhasil diambil. Jumlah item:", produk.length); // Log 2
     res.json(produk);
   } catch (err) {
+    console.error("Kesalahan saat mengambil data:", err.message); // Log 3
     res.status(500).json({ error: err.message });
   }
 });
