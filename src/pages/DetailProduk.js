@@ -9,7 +9,8 @@ function DetailProduk() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/produk/${id}`)
+    // REVISI PENTING: Menggunakan jalur relatif untuk Vercel
+    fetch(`/api/produk/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduk(data);
