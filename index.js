@@ -4,14 +4,13 @@ const cors = require("cors");
 const path = require("path");
 require('dotenv').config();
 
-// Schema Produk (pindahkan ke sini)
+// Schema Produk
 const produkSchema = new mongoose.Schema({
   nama: String,
   Jenis: String,
   Harga: Number,
   image_url: String,
 });
-
 const Produk = mongoose.model("Produk", produkSchema, "PRODUK");
 
 const app = express();
@@ -46,6 +45,7 @@ module.exports = async (req, res) => {
   // Hanya jalankan koneksi sekali
   if (mongoose.connection.readyState === 0) {
     try {
+      console.log("Variabel lingkungan yang digunakan:", process.env.MONGO_URI); // LOG PENTING
       await mongoose.connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
