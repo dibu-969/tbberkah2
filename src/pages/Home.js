@@ -7,12 +7,12 @@ function Home() {
   const [search, setSearch] = useState("");
   const [jenis, setJenis] = useState("Semua"); // default filter
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/produk")
-      .then((res) => res.json())
-      .then((data) => setProduk(data))
-      .catch((err) => console.error("❌ Gagal fetch produk:", err));
-  }, []);
+useEffect(() => {
+  fetch("/api/produk")
+    .then((res) => res.json())
+    .then((data) => setProduk(data))
+    .catch((err) => console.error("❌ Gagal fetch produk:", err));
+}, []);
 
   // 🔎 Filter produk berdasarkan nama + jenis
   const filteredProduk = produk.filter((item) => {
