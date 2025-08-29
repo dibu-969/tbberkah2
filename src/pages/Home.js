@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
@@ -9,19 +8,21 @@ function Home() {
   const [jenis, setJenis] = useState("Semua"); // default filter
 
   useEffect(() => {
-    // URL API yang sudah diperbaiki
+    // REVISI PENTING: Menggunakan jalur relatif agar berfungsi di Vercel
     fetch("/api/produk")
       .then((res) => res.json())
       .then((data) => setProduk(data))
       .catch((err) => console.error("❌ Gagal fetch produk:", err));
   }, []);
 
+  // Filter produk berdasarkan nama + jenis
   const filteredProduk = produk.filter((item) => {
     const cocokNama = item.nama.toLowerCase().includes(search.toLowerCase());
     const cocokJenis = jenis === "Semua" || item.Jenis === jenis;
     return cocokNama && cocokJenis;
   });
 
+  // Ambil daftar jenis unik dari data
   const jenisList = ["Semua", ...new Set(produk.map((item) => item.Jenis))];
 
   return (
@@ -77,5 +78,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;

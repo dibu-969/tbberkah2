@@ -1,4 +1,3 @@
-// src/pages/DetailProduk.js
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./DetailProduk.css";
@@ -10,7 +9,7 @@ function DetailProduk() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // URL API yang sudah diperbaiki
+    // REVISI PENTING: Menggunakan jalur relatif agar berfungsi di Vercel
     fetch(`/api/produk/${id}`)
       .then((res) => res.json())
       .then((data) => {
@@ -62,5 +61,4 @@ function DetailProduk() {
     </div>
   );
 }
-
 export default DetailProduk;

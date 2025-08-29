@@ -4,6 +4,14 @@ const cors = require("cors");
 const path = require("path");
 require('dotenv').config();
 
+// Koneksi MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("✅ MongoDB Connected"))
+.catch(err => console.error("❌ Connection error:", err.message));
+
 // Schema Produk
 const produkSchema = new mongoose.Schema({
   nama: String,
@@ -40,24 +48,5 @@ app.get("/api/produk/:id", async (req, res) => {
   }
 });
 
-// Ini adalah titik masuk Vercel
-module.exports = async (req, res) => {
-  // Hanya jalankan koneksi sekali
-  if (mongoose.connection.readyState === 0) {
-    try {
-      console.log("Variabel lingkungan yang digunakan:", process.env.MONGO_URI); // LOG PENTING
-      await mongoose.connect(process.env.MONGO_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-      console.log("✅ MongoDB Connected");
-    } catch (err) {
-      console.error("❌ Connection error:", err.message);
-      res.status(500).json({ error: "Failed to connect to database" });
-      return;
-    }
-  }
-
-  // Gunakan aplikasi Express untuk menangani permintaan
-  app(req, res);
-};
+// Mengekspor aplikasi Express untuk Vercel
+module.exports = app;
