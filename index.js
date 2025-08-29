@@ -1,23 +1,10 @@
-// index.js (file backend baru Anda)
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 require('dotenv').config();
 
-const app = express();
-app.use(cors());
-app.use(express.json());
-
-// Koneksi MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.error("❌ Connection error:", err));
-
-// Schema Produk
+// Schema Produk (pindahkan ke sini)
 const produkSchema = new mongoose.Schema({
   nama: String,
   Jenis: String,
@@ -25,8 +12,11 @@ const produkSchema = new mongoose.Schema({
   image_url: String,
 });
 
-// Pakai collection "PRODUK" (sesuai di Atlas)
 const Produk = mongoose.model("Produk", produkSchema, "PRODUK");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
 
 // API untuk semua produk
 app.get("/api/produk", async (req, res) => {
@@ -51,14 +41,23 @@ app.get("/api/produk/:id", async (req, res) => {
   }
 });
 
-// Menggunakan jalur relatif untuk Vercel
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Ini adalah titik masuk Vercel
+module.exports = async (req, res) => {
+  // Hanya jalankan koneksi sekali
+  if (mongoose.connection.readyState === 0) {
+    try {
+      await mongoose.connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log("✅ MongoDB Connected");
+    } catch (err) {
+      console.error("❌ Connection error:", err.message);
+      res.status(500).json({ error: "Failed to connect to database" });
+      return;
+    }
+  }
 
-// Mengekspor aplikasi untuk Vercel
-module.exports = app;
-
-
-
+  // Gunakan aplikasi Express untuk menangani permintaan
+  app(req, res);
+};
