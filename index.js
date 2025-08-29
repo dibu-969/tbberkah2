@@ -1,21 +1,22 @@
+// index.js (file backend baru Anda)
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
+require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // Koneksi MongoDB Atlas
-mongoose.connect("mongodb+srv://fqhindra07:wahyunii@cluster0.ygayshk.mongodb.net/TBBERKAH?retryWrites=true&w=majority&appName=Cluster0")
-  .then(() => {
-    console.log("✅ MongoDB Connected");
-    // Hapus log ini setelah masalah teratasi
-  })
-  .catch(err => {
-    console.error("❌ Connection error:", err.message);
-    // Hapus log ini setelah masalah teratasi
-  });
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.error("❌ Connection error:", err));
+
 // Schema Produk
 const produkSchema = new mongoose.Schema({
   nama: String,
@@ -30,12 +31,9 @@ const Produk = mongoose.model("Produk", produkSchema, "PRODUK");
 // API untuk semua produk
 app.get("/api/produk", async (req, res) => {
   try {
-    console.log("Mencoba mengambil data dari MongoDB..."); // Log 1
     const produk = await Produk.find();
-    console.log("Data berhasil diambil. Jumlah item:", produk.length); // Log 2
     res.json(produk);
   } catch (err) {
-    console.error("Kesalahan saat mengambil data:", err.message); // Log 3
     res.status(500).json({ error: err.message });
   }
 });
@@ -53,4 +51,14 @@ app.get("/api/produk/:id", async (req, res) => {
   }
 });
 
+// Menggunakan jalur relatif untuk Vercel
+app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Mengekspor aplikasi untuk Vercel
 module.exports = app;
+
+
+
