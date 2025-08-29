@@ -1,0 +1,78 @@
+.filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;          /* kasih jarak antar search & filter */
+  margin: 20px auto;  /* biar turun sedikit dari atas */
+}
+
+.search-bar {
+  width: 60%;
+  height: 40px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  padding: 0 10px;
+}
+
+.filter-select {
+  width: 15%;
+  height: 45px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  padding: 0 7px;
+}
+
+.no-result {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  margin-top: 20px;
+}
+
+
+.home-container {
+  padding: 20px;
+}
+
+.produk-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.produk-card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  background: #fff;
+  transition: 0.3s;
+}
+
+.produk-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.produk-img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.produk-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: #000000;
+  color: white;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.produk-link:hover {
+  background: #0056b3;
+}

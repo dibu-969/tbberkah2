@@ -1,0 +1,59 @@
+.detail-container {
+  display: flex;
+  gap: 20px;
+  max-width: 100%;
+  margin: 30px auto;
+  align-items: flex-start;
+}
+
+.detail-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.detail-image {
+  width: 50%;
+  height: 50%;
+  border-radius: 8px;
+}
+
+.detail-right {
+  flex: 1;
+  text-align: left;
+}
+
+.detail-title {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+.detail-price {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.detail-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.detail-button {
+  padding: 8px 16px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.detail-button:hover {
+  background: #f0f0f0;
+}
+
+.detail-button.active {
+  background: #333;
+  color: white;
+}
