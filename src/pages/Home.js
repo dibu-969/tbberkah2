@@ -1,3 +1,4 @@
+// src/pages/Home.js
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
@@ -7,26 +8,24 @@ function Home() {
   const [search, setSearch] = useState("");
   const [jenis, setJenis] = useState("Semua"); // default filter
 
-useEffect(() => {
-  fetch("/api/produk")
-    .then((res) => res.json())
-    .then((data) => setProduk(data))
-    .catch((err) => console.error("❌ Gagal fetch produk:", err));
-}, []);
+  useEffect(() => {
+    // URL API yang sudah diperbaiki
+    fetch("/api/produk")
+      .then((res) => res.json())
+      .then((data) => setProduk(data))
+      .catch((err) => console.error("❌ Gagal fetch produk:", err));
+  }, []);
 
-  // 🔎 Filter produk berdasarkan nama + jenis
   const filteredProduk = produk.filter((item) => {
     const cocokNama = item.nama.toLowerCase().includes(search.toLowerCase());
     const cocokJenis = jenis === "Semua" || item.Jenis === jenis;
     return cocokNama && cocokJenis;
   });
 
-  // Ambil daftar jenis unik dari data
   const jenisList = ["Semua", ...new Set(produk.map((item) => item.Jenis))];
 
   return (
     <div className="home-container">
-      {/* 🔎 Search + Filter dibungkus satu container */}
       <div className="filter-container">
         <input
           type="text"
@@ -35,7 +34,6 @@ useEffect(() => {
           onChange={(e) => setSearch(e.target.value)}
           className="search-bar"
         />
-
         <select
           value={jenis}
           onChange={(e) => setJenis(e.target.value)}
@@ -48,8 +46,6 @@ useEffect(() => {
           ))}
         </select>
       </div>
-
-      {/* 🔲 Grid Produk */}
       <div className="produk-grid">
         {filteredProduk.length > 0 ? (
           filteredProduk.map((item) => (
